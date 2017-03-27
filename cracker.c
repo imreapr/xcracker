@@ -65,7 +65,7 @@ int attempt_password(char* guess, char* correct) {
 static unsigned long long tries = 0;
 
 int dictionary_crack(char* correct) {
-	FILE* file = fopen("common_pwds.txt", "r");
+	FILE* file = fopen("cracklist.txt", "r");
 	char line[256];
 
 	while (fgets(line, sizeof(line), file)) {

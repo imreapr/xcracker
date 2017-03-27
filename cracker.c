@@ -9,8 +9,47 @@
 
 #define MAX_LENGTH 16
 
+int attempt_password(char* guess, char* correct);
+int dictionary_crack(char* correct);
+int inc(char* c);
+int brute_force_crack(char* correct);
+
+int main(int argc, char** argv) {
+	clock_t begin = clock();
+
+	//if the user gave a password to use, use it instead of the locked program
+	char* passed = NULL;
+	if (argc > 1) passed = argv[1];
+
+	//try dictionary attack first
+	//attempt most common passwords
+	if (!dictionary_crack(passed)) {
+		//now try brute force
+		//try every possible password
+		if (!brute_force_crack(passed)) {
+			//out of guesses
+			printf("Couldn't find password.\n");
+			return 1;
+		}
+		else printf("Brute force succeeded.\n");
+	}
+	else printf("Dictionary crack succeeded.\n");
+
+	clock_t end = clock();
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	printf("Completed in %f seconds.\n", time_spent);
+	return 0;
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 int attempt_password(char* guess, char* correct) {
-	//if they didn't give a password to check against, 
+	//if they didn't give a password to check against,
 	//pass their guess to the locked program
 	if (!correct) {
 		char input[strlen(guess) + 1];
@@ -86,31 +125,4 @@ int brute_force_crack(char* correct) {
 		} while(inc(guess));
 	}
 	return false;
-}
-
-int main(int argc, char** argv) {
-	clock_t begin = clock();
-
-	//if the user gave a password to use, use it instead of the locked program
-	char* passed = NULL;
-	if (argc > 1) passed = argv[1];
-
-	//try dictionary attack first
-	//attempt most common passwords
-	if (!dictionary_crack(passed)) {
-		//now try brute force
-		//try every possible password
-		if (!brute_force_crack(passed)) {
-			//out of guesses
-			printf("Couldn't find password.\n");
-			return 1;
-		} 
-		else printf("Brute force succeeded.\n");
-	}
-	else printf("Dictionary crack succeeded.\n");
-
-	clock_t end = clock();
-	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	printf("Completed in %f seconds.\n", time_spent);
-	return 0;
 }

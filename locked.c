@@ -10,7 +10,7 @@ int process_input(char* word) {
 		printf("Access granted.\n");
 		return 0;
 	}
-	printf("Incorrect password.\n");
+	printf("Password %s is incorrect.\n", word);
 	return 1;
 }
 

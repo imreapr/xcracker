@@ -13,13 +13,16 @@ int attempt_password(char* guess, char* correct);
 int dictionary_crack(char* correct);
 int inc(char* c);
 int brute_force_crack(char* correct);
+int hybrid_crack(char guess);
 
 int main(int argc, char** argv) {
 	clock_t begin = clock();
 
 	//if the user gave a password to use, use it instead of the locked program
 	char* passed = NULL;
-	if (argc > 1) passed = argv[1];
+	if (argc > 1){
+		passed = argv[1];
+	}
 
 	//try dictionary attack first
 	//attempt most common passwords
@@ -69,6 +72,8 @@ int dictionary_crack(char* correct) {
 	char line[256];
 
 	while (fgets(line, sizeof(line), file)) {
+		printf("Cracker: Trying... \"%s\"", line);
+
 		tries++;
 
 		//strip newline
@@ -125,4 +130,9 @@ int brute_force_crack(char* correct) {
 		} while(inc(guess));
 	}
 	return false;
+}
+
+int hybrid_crack(char guess){
+
+
 }
